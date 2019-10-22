@@ -7,18 +7,18 @@ import java.time.LocalDate;
  * NotaCredito
  */
 public class NotaCredito {
-    private LocalDate fechaEmision;
+    private String fechaEmision;
     private int nroNotaCredito;
     private int nroTalonario;
     private String letra;
     private String cliente;
     private BigDecimal total;
 
-    public LocalDate getFechaEmision() {
+    public String getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(LocalDate fechaEmision) {
+    public void setFechaEmision(String fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 

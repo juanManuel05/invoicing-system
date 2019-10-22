@@ -2,6 +2,7 @@ package models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import models.CabeceraFactura;
@@ -46,10 +47,10 @@ public class Factura {
         Factura factura = new Factura();
         BigDecimal total = new BigDecimal("0");
         BigDecimal totalIva = new BigDecimal("0");
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         //Cabecera
         CabeceraFactura cabecera = new CabeceraFactura();
-        cabecera.setFechaEmision(LocalDate.now());          
+        cabecera.setFechaEmision(LocalDate.now().format(formatter));          
         cabecera.setNroFactura((int)Math.round(Math.random()*10000));
         cabecera.setNroTalonario((int)Math.round(Math.random()*10000));
         cabecera.setLetra(ivaDetails.getLetra());
@@ -88,4 +89,16 @@ public class Factura {
 
         
     }//CreateFactura end
-}
+
+    public NotaCredito createNotaDeCredito (Factura factura){
+        NotaCredito notaCredito = new NotaCredito();
+        notaCredito.setCliente(factura.getCabecera().getCliente());
+        notaCredito.setFechaEmision(factura.getCabecera().getFechaEmision());
+        notaCredito.setLetra(factura.getCabecera().getLetra());
+        notaCredito.setNroTalonario(factura.getCabecera().getNroTalonario());
+        notaCredito.setTotal(factura.getPie().getTotal());
+
+        return notaCredito;
+    }
+}//class end
+    

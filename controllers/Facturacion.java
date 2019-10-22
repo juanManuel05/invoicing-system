@@ -16,6 +16,7 @@ import models.Factura;
 import models.Pedido;
 import models.Producto;
 import models.IvaDetails;
+import models.NotaCredito;
 import utils.*;
 
 /**
@@ -71,43 +72,53 @@ public class Facturacion {
 
         //Once all of the invoices are processed, I proceed with the txt file going through the list of invoices
         generateFile(facturasList);
-
-
-
     }
 
     private void generateFile(List<Factura> facturasList)  throws IOException { 
+
                 try {
                         String title = "Cliente-Tipo de Documento-Letra-Nro-Fecha de emisión-Monto";
                         BufferedWriter writer = new BufferedWriter(new FileWriter("fileName.txt"));
                         writer.write(title);
-                        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                        //DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                         Iterator<Factura> facturaIterator = facturasList.iterator();
                         //Iterate through Pedidos
                         while(facturaIterator.hasNext()){
                             Factura factura = facturaIterator.next();
 
+                            writer.write(factura.getCabecera().getCliente()+" ");
                             writer.write(factura.getCabecera().getTipoId()+" ");
                             writer.write(factura.getCabecera().getLetra()+" ");
                             writer.write(Integer.toString(factura.getCabecera().getNroFactura())+" ");
-                            writer.write(factura.getCabecera().getFechaEmision().format(myFormatObj)+" ");
-                            writer.write(factura.getPie().getTotal().toString()+" ");
+                            writer.write(factura.getCabecera().getFechaEmision()+" ");
+                            writer.write(factura.getPie().getTotal().toString());
                             writer.newLine();
-
-
                         }
-                        // for (int i = 0; i < 3; i++) {
-                        //         writer.write(test1+" ");                                
-                        //         writer.write(test6);
-                        //         writer.newLine();
-                        // }      
+                           
                         writer.close();       
                 } catch (IOException e) {
                         e.printStackTrace(); 
                 }
                 
     }
-    public static void main(String[] args) {
+
+    /**Since that I recieve a list of invoices, I assume all of the status are 'facturados' therefore 
+     * proceed to iterate over the list without taking the status into consideration
+    */
+    private void cancelInvoices(List<Factura> facturasList){
         
+        List<NotaCredito> notaCreditoList = new ArrayList<NotaCredito>();
+        Iterator<Factura> facturasIetartor = facturasList.iterator();
+        while(facturasIetartor.hasNext()){
+            //Create a nota de credito for each invoice cancelled
+            Factura factura = facturasIetartor.next();
+            NotaCredito notaCredito = factura.createNotaDeCredito(factura);
+            notaCreditoList.add(notaCredito);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        Facturacion facturacion = new Facturacion();
     }
 }

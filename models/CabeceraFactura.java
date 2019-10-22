@@ -5,18 +5,18 @@ import java.time.LocalDate;;
  * CabeceraFactura
  */
 public class CabeceraFactura {
-    private LocalDate fechaEmision;
+    private String fechaEmision;
     private int nroFactura;
     private int nroTalonario;
     private String Letra;
     private String Cliente;
     private String tipoId;
 
-    public LocalDate getFechaEmision() {
+    public String getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(LocalDate fechaEmision) {
+    public void setFechaEmision(String fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 
