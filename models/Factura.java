@@ -54,6 +54,7 @@ public class Factura {
         cabecera.setNroTalonario((int)Math.round(Math.random()*10000));
         cabecera.setLetra(ivaDetails.getLetra());
         cabecera.setCliente(Integer.toString(cliente.getNroCliente()));
+        cabecera.setTipoId(cliente.getTipoId());
         factura.setCabecera(cabecera);
         
         //DetalleFactura

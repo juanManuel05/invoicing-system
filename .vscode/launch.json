@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Hello",
+            "request": "launch",
+            "mainClass": "Hello",
+            "projectName": "Invoicing system_678de8db"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - QuickStart",
             "request": "launch",
             "mainClass": "QuickStart",

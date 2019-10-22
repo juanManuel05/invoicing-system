@@ -10,6 +10,7 @@ public class CabeceraFactura {
     private int nroTalonario;
     private String Letra;
     private String Cliente;
+    private String tipoId;
 
     public LocalDate getFechaEmision() {
         return fechaEmision;
@@ -49,6 +50,14 @@ public class CabeceraFactura {
 
     public void setCliente(String cliente) {
         Cliente = cliente;
+    }
+
+    public String getTipoId() {
+        return tipoId;
+    }
+
+    public void setTipoId(String tipoId) {
+        this.tipoId = tipoId;
     }
     
 }
