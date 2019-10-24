@@ -3,10 +3,8 @@ package src.models;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CabeceraFactura {
-     private static AtomicLong uniqueFacturaId = new AtomicLong(0);
+    private static AtomicLong uniqueFacturaId = new AtomicLong(0);
     private static AtomicLong uniqueTalonarioId = new AtomicLong(0); 
-    
-
     private String fechaEmision;
     private long nroFactura; 
     private long nroTalonario;
@@ -15,12 +13,12 @@ public class CabeceraFactura {
     private String tipoId;
 
     private CabeceraFactura(String fechaEmision, String letra, String cliente, String tipoId) {
-         this.fechaEmision = fechaEmision;
-            this.nroFactura = uniqueFacturaId.incrementAndGet();
+        this.fechaEmision = fechaEmision;
+        this.nroFactura = uniqueFacturaId.incrementAndGet();
         this.nroTalonario = uniqueTalonarioId.incrementAndGet();
-    this.letra = letra;
-    this.cliente = cliente;
-    this.tipoId = tipoId;
+        this.letra = letra;
+        this.cliente = cliente;
+        this.tipoId = tipoId;
     }
 
     public String getFechaEmision() {
@@ -64,34 +62,35 @@ public class CabeceraFactura {
     }
     
     public static class Builder {
+
         private String fechaEmision = "";
         private String letra = "";
         private String cliente = "";
         private String tipoId = "";
 
         public Builder setFechaEmision(String fechaEmision) {
-        this.fechaEmision = fechaEmision;
-        return this;
-    }
+            this.fechaEmision = fechaEmision;
+            return this;
+         }
 
-    public Builder setLetra(String letra) {
-        this.letra = letra;
-        return this;
-    }
+        public Builder setLetra(String letra) {
+            this.letra = letra;
+            return this;
+        }
 
-    public Builder setCliente(String cliente) {
-        this.cliente = cliente;
-        return this;
-    }
+        public Builder setCliente(String cliente) {
+            this.cliente = cliente;
+            return this;
+        }
 
-    public Builder setTipoId(String tipoId) {
-        this.tipoId = tipoId;
-        return this;
-    }
+        public Builder setTipoId(String tipoId) {
+            this.tipoId = tipoId;
+            return this;
+        }
     
-    public CabeceraFactura build() {
-        return new CabeceraFactura(this.fechaEmision, this.letra, this.cliente, this.tipoId);
-    }
+        public CabeceraFactura build() {
+            return new CabeceraFactura(this.fechaEmision, this.letra, this.cliente, this.tipoId);
+        }
     }
 
 	

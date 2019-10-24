@@ -9,7 +9,8 @@ import src.models.IvaDetails;
 import src.models.Pedido;
 import src.repository.Repository;
 import src.repository.RepositoryPedido;
-import src.utils.Utils;
+import src.utils.Iva;
+import src.view.PrintResults;
 
 public class Invoicing {
 
@@ -17,15 +18,16 @@ public class Invoicing {
 
     public void processPedidos()  {
 
-        List<Pedido> pedidos = pedidosRepo.getAll();
-        List<Factura> facturasList= new ArrayList<Factura>();
+        final List<Pedido> pedidos = pedidosRepo.getAll();
+        final List<Factura> facturasList= new ArrayList<Factura>();
 
-            pedidos.forEach(pedido->{
-                Clients cliente = pedido.getCliente();      
-                IvaDetails ivaDetails =  Utils.getIvaDetails(cliente.getCondicionImpositiva());            
-                facturasList.add(Factura.createFactura(cliente,pedido,ivaDetails));
-                pedido.setEstado("facturado");
+        pedidos.forEach(pedido->{
+            final Clients cliente = pedido.getCliente();      
+            final IvaDetails ivaDetails =  Iva.getIvaDetails(cliente.getCondicionImpositiva());            
+            facturasList.add(Factura.createFactura(cliente,pedido,ivaDetails));
+            pedido.setEstado("facturado");
         });
+        PrintResults.printFacturas(facturasList);
     }
 
     

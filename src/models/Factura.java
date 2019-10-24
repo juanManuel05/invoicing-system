@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import src.models.CabeceraFactura;
 import src.models.DetalleFactura;
 import src.models.PieFactura;
-import src.utils.Utils;
+import src.utils.Iva;;
 
 
 public class Factura {
@@ -41,7 +41,7 @@ public class Factura {
         this.pie = pie;
     }   
     
-    public static Factura createFactura(Clients cliente,Pedido pedido,IvaDetails ivaDetails){
+    public static Factura createFactura(final Clients cliente,final Pedido pedido,final IvaDetails ivaDetails){
         
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");   
@@ -52,22 +52,23 @@ public class Factura {
             .setTipoId(cliente.getTipoId())
             .build();
 
-        Factura factura = new Factura();
+        final Factura factura = new Factura();
         factura.setCabecera(cabecera);
         
         
-        BigDecimal total = new BigDecimal("0");
-        BigDecimal totalIva = new BigDecimal("0");
-        ArrayList<DetalleFactura> listaDetalles = new ArrayList<DetalleFactura>();
+        final BigDecimal total = new BigDecimal("0");
+        final BigDecimal totalIva = new BigDecimal("0");
+        final ArrayList<DetalleFactura> listaDetalles = new ArrayList<DetalleFactura>();
         for (Producto producto : pedido.getDetalles()) {
-            DetalleFactura detalle = new DetalleFactura();
-            detalle.setProducto(producto.getNombre());
-            detalle.setPrecioUnitario(producto.getPrecio());
-            detalle.setPorcentajeIva(ivaDetails.getPorcentaje());
-            detalle.setMontoIva(Utils.getMontoIva(detalle.getPorcentajeIva(),detalle.getPrecioUnitario()));
-            detalle.setCantidad(producto.getCantidad());
-            detalle.setPrecioNeto(producto.getPrecio().multiply(BigDecimal.valueOf(producto.getCantidad())));
-            detalle.setPrevioVenta(detalle.getPrecioNeto().multiply(ivaDetails.getPorcentaje()));
+            final DetalleFactura detalle = new DetalleFactura.Builder()
+            .setProducto(producto.getNombre())
+            .setPrecioUnitario(producto.getPrecio())
+            .setPorcentajeIva(ivaDetails.getPorcentaje())
+            .setMontoIva(Iva.getMontoIva(ivaDetails.getPorcentaje(),producto.getPrecio()))
+            .setCantidad(producto.getCantidad())
+            .setPrecioNeto(producto.getPrecio().multiply(BigDecimal.valueOf(producto.getCantidad())))
+            .setPrecioVenta(producto.getPrecio().multiply(ivaDetails.getPorcentaje()))
+            .build();         
             
             total.add(detalle.getPrecioNeto());
             totalIva.add(detalle.getMontoIva());
@@ -77,23 +78,16 @@ public class Factura {
         factura.setDetalle(listaDetalles);
 
         
-        PieFactura pie = new PieFactura();
-        pie.setTotal(total);
-        pie.setTotalIva(totalIva);
+        final PieFactura pie = new PieFactura.Builder()
+        .setTotal(total)
+        .setTotalIva(totalIva)
+        .build();
+
         factura.setPie(pie);
 
         return factura;        
     }
 
-    public NotaCredito createNotaDeCredito (Factura factura){
-        NotaCredito notaCredito = new NotaCredito();
-        notaCredito.setCliente(factura.getCabecera().getCliente());
-        notaCredito.setFechaEmision(factura.getCabecera().getFechaEmision());
-        notaCredito.setLetra(factura.getCabecera().getLetra());
-        notaCredito.setNroTalonario(factura.getCabecera().getNroTalonario());
-        notaCredito.setTotal(factura.getPie().getTotal());
-
-        return notaCredito;
-    }
+    
 }
     

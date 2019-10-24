@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 
 import src.models.IvaDetails;
 
-//TODO cambiar iva
-public class Utils {
 
-    public static IvaDetails getIvaDetails (int category ){
-        IvaDetails details = new IvaDetails();
+public class Iva {
+
+    public static IvaDetails getIvaDetails (final int category ){
+        final IvaDetails details = new IvaDetails();
 
         switch (category) {
             case 1: details.setPorcentaje(new BigDecimal("10.05")); 
@@ -28,7 +28,7 @@ public class Utils {
     
     }
 
-    public static BigDecimal getMontoIva (BigDecimal porcentajeIva, BigDecimal precio){
+    public static BigDecimal getMontoIva (final BigDecimal porcentajeIva,final BigDecimal precio){
         return (porcentajeIva.multiply(precio).divide(new BigDecimal(100)));
     }
 
