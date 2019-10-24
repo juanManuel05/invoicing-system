@@ -1,10 +1,8 @@
-package models;
+package src.models;
 
 import java.math.BigDecimal;
 
-/**
- * PieFactura
- */
+
 public class PieFactura {
 
     private BigDecimal total;

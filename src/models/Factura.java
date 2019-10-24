@@ -1,18 +1,16 @@
-package models;
+package src.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import models.CabeceraFactura;
-import models.DetalleFactura;
-import models.PieFactura;
-import utils.Utils;
+import src.models.CabeceraFactura;
+import src.models.DetalleFactura;
+import src.models.PieFactura;
+import src.utils.Utils;
 
-/**
- * Factura
- */
+
 public class Factura {
     
     private CabeceraFactura cabecera;
@@ -43,30 +41,29 @@ public class Factura {
         this.pie = pie;
     }   
     
-    public Factura createFactura(Clients cliente,Pedido pedido,IvaDetails ivaDetails){
+    public static Factura createFactura(Clients cliente,Pedido pedido,IvaDetails ivaDetails){
+        
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");   
+        final CabeceraFactura cabecera = new CabeceraFactura.Builder()
+            .setFechaEmision(LocalDate.now().format(formatter))
+            .setLetra(ivaDetails.getLetra())
+            .setCliente(Integer.toString(cliente.getNroCliente()))
+            .setTipoId(cliente.getTipoId())
+            .build();
+
         Factura factura = new Factura();
-        BigDecimal total = new BigDecimal("0");
-        BigDecimal totalIva = new BigDecimal("0");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        //Cabecera
-        CabeceraFactura cabecera = new CabeceraFactura();
-        cabecera.setFechaEmision(LocalDate.now().format(formatter));          
-        cabecera.setNroFactura((int)Math.round(Math.random()*10000));
-        cabecera.setNroTalonario((int)Math.round(Math.random()*10000));
-        cabecera.setLetra(ivaDetails.getLetra());
-        cabecera.setCliente(Integer.toString(cliente.getNroCliente()));
-        cabecera.setTipoId(cliente.getTipoId());
         factura.setCabecera(cabecera);
         
-        //DetalleFactura
-
+        
+        BigDecimal total = new BigDecimal("0");
+        BigDecimal totalIva = new BigDecimal("0");
         ArrayList<DetalleFactura> listaDetalles = new ArrayList<DetalleFactura>();
         for (Producto producto : pedido.getDetalles()) {
             DetalleFactura detalle = new DetalleFactura();
-
             detalle.setProducto(producto.getNombre());
             detalle.setPrecioUnitario(producto.getPrecio());
-            detalle.setPorcentajeIva(ivaDetails.getPorcentaje());//porcentaje
+            detalle.setPorcentajeIva(ivaDetails.getPorcentaje());
             detalle.setMontoIva(Utils.getMontoIva(detalle.getPorcentajeIva(),detalle.getPrecioUnitario()));
             detalle.setCantidad(producto.getCantidad());
             detalle.setPrecioNeto(producto.getPrecio().multiply(BigDecimal.valueOf(producto.getCantidad())));
@@ -76,19 +73,17 @@ public class Factura {
             totalIva.add(detalle.getMontoIva());
 
             listaDetalles.add(detalle);            
-        }//While end
+        }
         factura.setDetalle(listaDetalles);
 
-        //PieFactura
+        
         PieFactura pie = new PieFactura();
         pie.setTotal(total);
         pie.setTotalIva(totalIva);
         factura.setPie(pie);
 
-        return factura;
-
-        
-    }//CreateFactura end
+        return factura;        
+    }
 
     public NotaCredito createNotaDeCredito (Factura factura){
         NotaCredito notaCredito = new NotaCredito();
@@ -100,5 +95,5 @@ public class Factura {
 
         return notaCredito;
     }
-}//class end
+}
     

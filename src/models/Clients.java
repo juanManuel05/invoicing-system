@@ -1,8 +1,6 @@
-package models;
+package src.models;
 
-/**
- * Clients
- */
+
 public class Clients {
 
     private int nroCliente;

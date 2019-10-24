@@ -1,10 +1,8 @@
-package models;
+package src.models;
 
 import java.math.BigDecimal;
 
-/**
- * IvaDetails
- */
+
 public class IvaDetails {
 
     private BigDecimal porcentaje;

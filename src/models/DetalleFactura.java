@@ -1,10 +1,8 @@
-package models;
+package src.models;
 
 import java.math.BigDecimal;
 
-/**
- * DetalleFactura
- */
+
 public class DetalleFactura {
 
     private String producto;

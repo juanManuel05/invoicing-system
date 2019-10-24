@@ -1,9 +1,7 @@
-package models;
+package src.models;
 import java.math.BigDecimal;
 
-/**
- * Producto
- */
+
 public class Producto {
 
     private int codigo;

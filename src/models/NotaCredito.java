@@ -1,15 +1,11 @@
-package models;
+package src.models;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
-/**
- * NotaCredito
- */
 public class NotaCredito {
     private String fechaEmision;
-    private int nroNotaCredito;
-    private int nroTalonario;
+    private long nroNotaCredito;
+    private long nroTalonario;
     private String letra;
     private String cliente;
     private BigDecimal total;
@@ -22,7 +18,7 @@ public class NotaCredito {
         this.fechaEmision = fechaEmision;
     }
 
-    public int getNroNotaCredito() {
+    public long getNroNotaCredito() {
         return nroNotaCredito;
     }
 
@@ -30,11 +26,11 @@ public class NotaCredito {
         this.nroNotaCredito = nroNotaCredito;
     }
 
-    public int getNroTalonario() {
+    public long getNroTalonario() {
         return nroTalonario;
     }
 
-    public void setNroTalonario(int nroTalonario) {
+    public void setNroTalonario(long nroTalonario) {
         this.nroTalonario = nroTalonario;
     }
 

@@ -1,9 +1,7 @@
-package models;
-import models.Producto;
+package src.models;
+import src.models.Producto;
 
-/**
- * Pedido
- */
+
 public class Pedido {
     private int nroPedido;
     private Clients cliente;
